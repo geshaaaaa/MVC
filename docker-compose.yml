@@ -1,0 +1,37 @@
+networks:
+  app_network:
+    driver: bridge
+
+
+volumes:
+  HW-php-pro:
+    driver: local
+
+
+services:
+  app:
+    container_name: mvc-container
+    build:
+      context: docker
+    restart: "always"
+    ports:
+      - "8081:80" # 443 => https
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app_network
+
+  mysql:
+    image: "mysql:8"
+    restart: "always"
+    ports:
+      - "33062:3306" # 127.0.0.1:33061
+    volumes:
+      - "HW-php-pro:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: HW-php-pro
+    networks:
+      - app_network
+
+
