@@ -139,7 +139,7 @@ class Run implements Command
         ");
 
         if (!$query->execute()) {
-            throw new Exception("- smth went wrong with 'migrations' table script");
+            throw new Exception("- something went wrong with 'migrations' table script");
         }
 
         $this->cli->info("- 'migrations' table was checked/created");
