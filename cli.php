@@ -10,7 +10,7 @@ use splitbrain\phpcli\Options;
 use App\Commands\Create;
 use App\Commands\Run;
 use Core\DB;
-
+use App\Commands\Rollback;
 
 Dotenv::createUnsafeImmutable(BASE_DIR)->load();
 
@@ -23,7 +23,8 @@ class SmallCLI extends CLI
 
         $this->commands = [
             "create" => Create::class,
-            "run" =>  Run::class
+            "run" =>  Run::class,
+            "rollback" => Rollback::class
         ];
     }
 
@@ -32,6 +33,7 @@ class SmallCLI extends CLI
         $options->setHelp("Створення міграцій та їх застосування");
         $options->registerCommand("create", "Створити нову міграцію");
         $options->registerCommand("run", "Запустити міграцію");
+        $options->registerCommand("rollback", "Видалити міграцію");
         $options->registerArgument("name", "Назва міграції, тільки для create", true);
 
     }
