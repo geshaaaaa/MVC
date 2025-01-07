@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function register() : void
     {
         dd(User::create([
-            "email" => "dimasvinina1gmail.com",
+            "email" => "geshakurkotov@gmail.com",
             "password" => "123",
             "userType" => "Agency"
         ]));
