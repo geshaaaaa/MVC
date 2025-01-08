@@ -2,12 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Enums\SQL\CommandsSQL;
+use App\Models\User;
 use Core\Controller;
 class AuthController extends Controller
 {
-    public function register(int $id)
+    public function register() : void
     {
-        dd(__METHOD__, $id);
+        dd(User::create([
+            "email" => "dimasvinina1gmail.com",
+            "password" => "123",
+            "userType" => "Agency"
+        ]));
 
     }
 

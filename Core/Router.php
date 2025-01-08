@@ -128,7 +128,7 @@ class Router
         return json_encode($data);
 
     }
-    protected function checkHtttpMethod()
+    protected function checkHtttpMethod() : void
     {
         $requestMethod = ($_SERVER['REQUEST_METHOD']);
 
@@ -147,6 +147,7 @@ class Router
         $uri = trim($uri, "/");
 
         if ($router->match($uri)) {
+            $router->checkHtttpMethod();
 
             $controller = new $router->params['controller'];
             $actions = $router->params['action'];
