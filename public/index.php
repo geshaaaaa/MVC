@@ -21,7 +21,7 @@ catch (Throwable $exception)
 {
     die(
     jsonResponse(
-        $exception->getCode() === 0 ? Status::UNPROCESSABLE_ENTITY : Status::from($exception->getCode()),
+        Status::tryFrom((int) $exception->getCode()) ?? Status::UNPROCESSABLE_ENTITY,
         [
             'errors' => [
                 'message' => $exception->getMessage(),
