@@ -14,7 +14,7 @@ return new class implements \App\Commands\Contract\MigrationSample
            password TEXT NOT NULL,
            userType VARCHAR(255) NOT NULL,
            token TEXT,
-           token_expired_at DATETIME,
+           token_expired_at BIGINT,
            created_at DATETIME DEFAULT NOW()
         )';
     }
