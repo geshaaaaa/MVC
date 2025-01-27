@@ -184,6 +184,34 @@ trait Queryable
         return $query->fetchObject(static::class);
     }
 
+    public function or(string $column, CommandsSQL $operator = CommandsSQL::EQUAL, mixed $value = null): static
+    {
+        $this->required(['where'], 'OR can not be used without');
+
+        static::$query .= ' OR ';
+        $this->commands[] = 'or';
+
+        return $this->where($column, $operator, $value);
+    }
+
+    public function orderBy(array $columns): static
+    {
+        $this->required(['select'], 'ORDER BY can not be called without');
+
+        $this->commands[] = 'order';
+
+        static::$query .= " ORDER BY ";
+
+        $lastKey = array_key_last($columns);
+
+        foreach ($columns as $column => $direction) {
+            static::$query .= $column . ' ' . $direction . ($column === $lastKey ? '' : ', ');
+        }
+
+        return $this;
+    }
+
+
      public function update(array $fields) : static
     {
         $query = DB::connect()->prepare("UPDATE " . static::$tableName . " SET " . $this->updatePlaceholders($fields) . ' WHERE id = :id');
@@ -193,6 +221,11 @@ trait Queryable
 
         return static::find($this->id);
 
+    }
+
+    public function destroy(): bool
+    {
+        return static::delete($this->id);
     }
 
 
@@ -207,6 +240,17 @@ trait Queryable
     {
         $result = $this->get();
         return !empty($result) ? array_map(fn($obj) => $obj->$column, $result) : [];
+    }
+
+
+    public function and(string $column, CommandsSQL $operator = CommandsSQL::EQUAL, mixed $value = null): static
+    {
+        $this->required(['where'], 'AND can not be used without');
+
+        static::$query .= ' AND ';
+        $this->commands[] = 'and';
+
+        return $this->where($column, $operator, $value);
     }
 
     protected function required(array $requiredCommands, string $message = ''): void

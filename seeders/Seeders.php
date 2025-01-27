@@ -11,7 +11,8 @@ abstract class Seeders
     protected Generator $faker;
 
     static public array $seeds = [
-        UsersSeeder::class
+        UsersSeeder::class,
+        FolderSeeder::class
     ];
     public function __construct()
     {

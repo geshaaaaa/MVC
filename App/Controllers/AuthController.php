@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         if (AuthValidator::validate($fields))
         {
-            $user = User::findBy('email', 'gogol213@gmail.com');
+            $user = User::findBy('email', $fields['email']);
 
             if (password_verify($fields['password'], $user->password)) {
 

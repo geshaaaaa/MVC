@@ -23,9 +23,10 @@ class Model
             {
                 continue;
             }
+            $properties[$prop->getName()] = $prop->getValue($this);
         }
 
-        $properties[$prop->getName()] = $prop->getValue($this);
+
             return $properties;
         }
 

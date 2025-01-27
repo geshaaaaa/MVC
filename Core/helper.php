@@ -2,7 +2,8 @@
 
 
 use App\Enums\Http\Status;
-
+use App\Models\Folder;
+use ReallySimpleJWT\Token;
 
 
 function requestBody() : array
@@ -34,15 +35,39 @@ function getAuthToken() : string
 
     if (empty($headers['Authorization']))
     {
-        throw new Exception("Autorization header not set", 401);
+        throw new Exception("Authorization header not set", 401);
     }
 
-    $token = str_replace("Bearer", "", $headers['Authorization']);
+    $token = str_replace('Bearer ', '', $headers['Authorization']);
 
-    if (\ReallySimpleJWT\Token::validateExpiration($token))
+    if (!Token::validateExpiration($token))
     {
         throw new Exception("Token expired", 401);
     }
     return $token;
+}
 
+function getAuthId() : int
+{
+    $token  = Token::getPayload(getAuthToken());
+    if (empty($token['user_id']))
+    {
+        throw new Exception("Token structure not valid");
+
+    }
+    return (int) $token['user_id'];
+}
+
+function commonFolders() : array
+{
+    $defaultFolders = array_values(Folder::DEFAULTS);
+    $folders = [];
+
+
+    foreach ($defaultFolders as $folder) {
+        $folders[] = strtoupper($folder);
+        $folders[] = ucfirst($folder);
+        $folders[] = strtolower($folder);
+    }
+    return $folders;
 }
