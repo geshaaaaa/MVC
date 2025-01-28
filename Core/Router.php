@@ -3,6 +3,7 @@
 namespace Core;
 
 
+use App\Controllers\BaseApiController;
 use App\Enums\Http\Status;
 use Core\Traits\RouteHttpMethods;
 use Exception;
@@ -97,7 +98,7 @@ class Router
             throw new Exception("Class $controller doesnt exist");
         }
 
-        if (!in_array(get_parent_class($controller), [Controller::class])) {
+        if (!in_array(get_parent_class($controller), [Controller::class, BaseApiController::class])) {
             throw new Exception("$controller doesnt extend class Controller");
         }
         $this->routes[$this->currentRoute]["controller"] = $controller;

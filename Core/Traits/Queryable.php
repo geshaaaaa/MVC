@@ -44,7 +44,7 @@ trait Queryable
     {
         static::resetQuery();
 
-        static::$query .= "SELECT" . implode(",", $columns). "FROM " . static::$tableName;
+        static::$query .= "SELECT " . implode(",", $columns). " FROM " . static::$tableName;
 
         $obj = new static;
         $obj->commands[] = 'select';
@@ -83,15 +83,46 @@ trait Queryable
 
         $obj = in_array("select", $this->commands) ? $this : static::select();
 
+        $value = $this->transformWhereValue($value);
+
         if (!in_array("where", $obj->commands))
         {
-            static::$query .= " WHERE";
+            static::$query .= " WHERE ";
             $obj->commands[] = "where";
         }
-        static::$query = "$column $operator->value $value";
+        static::$query .= "$column $operator->value $value";
 
         return $obj;
     }
+
+
+    protected function transformWhereValue(mixed $value): string|int|float
+    {
+        $checkOnString = fn ($v) => !is_null($v) && !is_bool($v) && !is_numeric($v) && !is_array($v) && $v !== CommandsSQL::NULL->value;
+
+        if ($checkOnString($value)) {
+            $value = "'$value'";
+        }
+
+        if (is_null($value)) {
+            $value = CommandsSQL::NULL->value;
+        }
+
+        if (is_array($value)) {
+            $value = array_map(fn ($v) => $checkOnString($v) ? "'$v'" : $v, $value);
+            $value = '(' . implode(', ', $value) . ')'; # (1, NULL, 'string')
+        }
+
+        if (is_bool($value)) {
+            $value = $value ? 'TRUE' : 'FALSE';
+        }
+
+        return $value;
+    }
+
+
+
+
 
 
     protected function prevent(array $preventCommands, string $message = ''): void
@@ -127,23 +158,59 @@ trait Queryable
             'placeholders' => implode(', ', $placeholders)
         ];
     }
-    public function find(int $id) : static|false
+    static public function find(int $id) : static|false
     {
-        $query = DB::connect()->prepare("SELECT * FROM" . static::$tableName . "WHERE id = :id" );
+        $query = DB::connect()->prepare("SELECT * FROM " . static::$tableName . " WHERE id = :id" );
         $query->bindParam('id', $id, PDO::PARAM_INT);
         $query->execute();
 
         return $query->fetchObject(static::class);
     }
 
-    public function findBy(int $column, mixed $value) : static|false
+
+    static public function createAndReturn(array $fields): null|static
     {
-        $query = DB::connect()->prepare("SELECT * FROM" . static::$tableName . "WHERE $column = :$column" );
-        $query->bindParam($column, $value, PDO::PARAM_INT);
+        static::create($fields);
+
+        return static::find(DB::connect()->lastInsertId());
+    }
+
+    static public function findBy(string $column, mixed $value) : static|false
+    {
+        $query = DB::connect()->prepare("SELECT * FROM " . static::$tableName . " WHERE $column = :$column" );
+        $query->bindParam($column, $value);
         $query->execute();
 
         return $query->fetchObject(static::class);
     }
+
+    public function or(string $column, CommandsSQL $operator = CommandsSQL::EQUAL, mixed $value = null): static
+    {
+        $this->required(['where'], 'OR can not be used without');
+
+        static::$query .= ' OR ';
+        $this->commands[] = 'or';
+
+        return $this->where($column, $operator, $value);
+    }
+
+    public function orderBy(array $columns): static
+    {
+        $this->required(['select'], 'ORDER BY can not be called without');
+
+        $this->commands[] = 'order';
+
+        static::$query .= " ORDER BY ";
+
+        $lastKey = array_key_last($columns);
+
+        foreach ($columns as $column => $direction) {
+            static::$query .= $column . ' ' . $direction . ($column === $lastKey ? '' : ', ');
+        }
+
+        return $this;
+    }
+
 
      public function update(array $fields) : static
     {
@@ -156,12 +223,55 @@ trait Queryable
 
     }
 
+    public function destroy(): bool
+    {
+        return static::delete($this->id);
+    }
+
 
     protected function updatePlaceholders(array $fields): string
     {
         $keys = array_map(fn ($key) => "$key = :$key", array_keys($fields));
 
         return implode(', ', $keys);
+    }
+
+    public function pluck(string $column): array
+    {
+        $result = $this->get();
+        return !empty($result) ? array_map(fn($obj) => $obj->$column, $result) : [];
+    }
+
+
+    public function and(string $column, CommandsSQL $operator = CommandsSQL::EQUAL, mixed $value = null): static
+    {
+        $this->required(['where'], 'AND can not be used without');
+
+        static::$query .= ' AND ';
+        $this->commands[] = 'and';
+
+        return $this->where($column, $operator, $value);
+    }
+
+    protected function required(array $requiredCommands, string $message = ''): void
+    {
+        foreach ($requiredCommands as $command) {
+            if (!in_array($command, $this->commands)) {
+                $message = sprintf(
+                    '%s: %s [%s]',
+                    static::class,
+                    $message,
+                    $command
+                );
+                throw new Exception($message, 422);
+            }
+        }
+    }
+
+    public function exists(): bool
+    {
+        $this->required(['select'], 'Method exists() can not be called without');
+        return !empty($this->get());
     }
 
 }

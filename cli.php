@@ -4,6 +4,8 @@ const BASE_DIR = __DIR__;
 require_once BASE_DIR . "/vendor/autoload.php";
 
 use App\Commands\Contract\Command;
+use App\Commands\Seed;
+use seeders\Seeders;
 use splitbrain\phpcli\CLI;
 use Dotenv\Dotenv;
 use splitbrain\phpcli\Options;
@@ -24,7 +26,8 @@ class SmallCLI extends CLI
         $this->commands = [
             "create" => Create::class,
             "run" =>  Run::class,
-            "rollback" => Rollback::class
+            "rollback" => Rollback::class,
+            "db:seed" => Seed::class
         ];
     }
 
@@ -34,6 +37,7 @@ class SmallCLI extends CLI
         $options->registerCommand("create", "Створити нову міграцію");
         $options->registerCommand("run", "Запустити міграцію");
         $options->registerCommand("rollback", "Видалити міграцію");
+        $options->registerCommand("db:seed", "Запустити сіди");
         $options->registerArgument("name", "Назва міграції, тільки для create", true);
 
     }
