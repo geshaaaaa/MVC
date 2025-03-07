@@ -8,6 +8,7 @@ abstract class  BaseValidator
 
     static public function validate(array $fields = [])
     {
+        static::$errors = [];
         if (empty(static::$rules))
         {
             return true;

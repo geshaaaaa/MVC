@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validators\FolderVal;
+namespace App\Validators\FolderValidation;
 
 use App\Validators\BaseValidator;
 use App\Models\Folder;

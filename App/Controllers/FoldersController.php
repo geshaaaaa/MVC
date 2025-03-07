@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Enums\Http\Status;
 use App\Enums\SQL\CommandsSQL;
 use App\Models\Folder;
-use App\Validators\FolderVal\FolderValidator;
+use App\Validators\FolderValidation\FolderValidator;
 use Core\Controller;
 use App\Controllers\BaseApiController;
 
@@ -62,7 +62,7 @@ class FoldersController extends BaseApiController
 
         if (!$result)
         {
-            return $this->response(Status::UNPROCESSABLE_ENTITY, [],[ 'message' => 'Oops, smth went wrong']);
+            return $this->response(Status::UNPROCESSABLE_ENTITY, [],[ 'message' => 'Oops, smth went  rong']);
         }
 
         return $this->response(Status::OK, $this->model->toArray());

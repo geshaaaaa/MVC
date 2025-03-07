@@ -95,6 +95,42 @@ trait Queryable
         return $obj;
     }
 
+    public function whereExists(callable $callback, array $params = []): static
+    {
+        $this->prevent(['order', 'limit', 'having', 'group'], 'WHERE CANT BE USED AFTER THESE COMMANDS');
+        $obj = in_array("select", $this->commands) ? $this : static::select();
+
+        if (!in_array("where", $obj->commands)) {
+            static::$query .= " WHERE ";
+            $obj->commands[] = "where";
+        } else {
+            static::$query .= " AND ";
+        }
+
+        static::$query .= "EXISTS (";
+        call_user_func_array($callback, array_merge([$this], $params)); // Выполняем callback, передавая $this и параметры
+        static::$query .= ")";
+
+        return $obj;
+    }
+    public function whereNotExists(callable $callback, array $params = []): static
+    {
+        $this->prevent(['order', 'limit', 'having', 'group'], 'WHERE CANT BE USED AFTER THESE COMMANDS');
+        $obj = in_array("select", $this->commands) ? $this : static::select();
+
+        if (!in_array("where", $obj->commands)) {
+            static::$query .= " WHERE ";
+            $obj->commands[] = "where";
+        } else {
+            static::$query .= " AND ";
+        }
+
+        static::$query .= "NOT EXISTS (";
+        call_user_func_array($callback, array_merge([$this], $params)); // Выполняем callback, передавая $this и параметры
+        static::$query .= ")";
+
+        return $obj;
+    }
 
     protected function transformWhereValue(mixed $value): string|int|float
     {
@@ -242,6 +278,24 @@ trait Queryable
         return !empty($result) ? array_map(fn($obj) => $obj->$column, $result) : [];
     }
 
+    public function whereNotIn(string $column, array $values): static
+    {
+        $this->prevent(['order', 'limit', 'having', 'group'], 'WHERE NOT IN CANT BE USED AFTER THESE COMMANDS');
+
+        $obj = in_array("select", $this->commands) ? $this : static::select();
+
+        if (!in_array("where", $obj->commands)) {
+            static::$query .= " WHERE ";
+            $obj->commands[] = "where";
+        } else {
+            static::$query .= " AND ";
+        }
+
+        $placeholders = implode(", ", array_map(fn($v) => is_numeric($v) ? $v : "'$v'", $values));
+        static::$query .= "$column NOT IN ($placeholders)";
+
+        return $obj;
+    }
 
     public function and(string $column, CommandsSQL $operator = CommandsSQL::EQUAL, mixed $value = null): static
     {
@@ -272,6 +326,22 @@ trait Queryable
     {
         $this->required(['select'], 'Method exists() can not be called without');
         return !empty($this->get());
+    }
+
+    public function join(string $table, array $conditions, string $type = 'LEFT'): static
+    {
+        $obj = in_array('select', $this->commands) ? $this : static::select();
+
+
+        $obj->required(['select'], 'JOIN can not be called without');
+
+        $obj->commands[] = 'join';
+
+        $conditions = array_map(fn ($condArr) => "$condArr[left] $condArr[operator] $condArr[right]", $conditions);
+
+        static::$query .= " $type JOIN $table ON " . implode(' AND ', $conditions);
+
+        return $obj;
     }
 
 }

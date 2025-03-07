@@ -15,9 +15,7 @@ try {
 
     require_once BASE_DIR . '/routes/api.php';
 
-
     die(Router::dispatch($_SERVER['REQUEST_URI']));
-
 
 }
 catch (Throwable $exception)

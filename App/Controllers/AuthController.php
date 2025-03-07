@@ -2,40 +2,31 @@
 
 namespace App\Controllers;
 
-use App\Enums\SQL\CommandsSQL;
-use App\Models\User;
-use Core\Controller;
-use Core\Model;
-use ReallySimpleJWT\Token;
-use App\Validators\Auth\RegisterValidator;
-use App\Validators\Auth\AuthValidator;
 use App\Enums\Http\Status;
-
+use App\Models\User;
+use App\Session\Session;
+use App\Validators\Auth\AuthValidator;
+use Core\Controller;
+use Core\Redirect\Redirect;
+use Core\View\View;
+use Exception;
+use ReallySimpleJWT\Token;
 
 
 class AuthController extends Controller
 {
-    public function register()
+
+    protected Session $session;
+
+    public function __construct()
     {
-        $fields = requestBody();
+        $this->session = new Session();
+    }
+    public function index()
+    {
+        View::page('login');
 
-
-        if (RegisterValidator::validate($fields))
-        {
-            $user = User::createAndReturn([
-                ...$fields,
-                'password' => password_hash($fields['password'], PASSWORD_ARGON2ID),
-                'userType' => "Agency"
-            ]);
-            return $this->response(Status::OK, $user->toArray());
-        }
-
-        return $this->response(
-            Status::UNPROCESSABLE_ENTITY,
-            $fields,
-            RegisterValidator::getErrors()
-        );
-
+        return $this->response(Status::OK, ['message' => 'Login page loaded']);
     }
 
     public function auth()
@@ -57,18 +48,72 @@ class AuthController extends Controller
                     'token_expired_at' => $expired_at
                 ]);
 
-                return $this->response(Status::OK, compact('token'));
+                setcookie("token", $token, time() + 3600, "/", "", false, true);
+                Redirect::to('/');
+                exit;
             }
-
         }
+        $this->session->set('errors', AuthValidator::getErrors());
 
-        return $this->response(
-            Status::UNPROCESSABLE_ENTITY,
-            $fields,
-            AuthValidator::getErrors()
-        );
+        Redirect::to('/auth');
+        exit;
 
 
     }
+
+    public function isAuth(): bool
+    {
+        if (!empty($_COOKIE['token'])) {
+            $token = $_COOKIE['token'];
+
+            try {
+                $payload = Token::getPayload($token);
+
+                if (!isset($payload['exp']) || !isset($payload['user_id'])) {
+                    return false;
+                }
+
+                if ($payload['exp'] < time()) {
+                    return false;
+                }
+
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public function authEmail() : string
+    {
+        if (isset($_COOKIE['token'])) { // Проверяем, установлено ли куки
+            $user_token = $_COOKIE['token'];
+            $user = User::findBy('token', $user_token); // Ищем пользователя по токену
+            if ($user) { // Проверяем, найден ли пользователь
+                return $user->email;
+            }
+        }
+        return 'user not found';
+    }
+
+    public function logout(): void
+    {
+        setcookie("token", "", time() - 3600, "/", "", false, true);
+
+        if (!empty($_COOKIE['token'])) {
+            $user = User::findBy('token', $_COOKIE['token']);
+            if ($user) {
+                $user->update([
+                    'token' => null,
+                    'token_expired_at' => null
+                ]);
+            }
+        }
+
+        Redirect::to("/");
+        exit();
+    }
+
 
 }

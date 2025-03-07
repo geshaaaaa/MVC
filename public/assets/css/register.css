@@ -1,0 +1,152 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.montserrat-semibold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 600;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-bold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 700;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-medium {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 500;
+
+    font-style: normal;
+
+}
+
+
+body {
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background: white;
+    padding: 30px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #0d6efd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.arrow-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Центрируем стрелку в круге */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #eee;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Расстояние между кругом и текстом */
+}
+
+.arrow {
+    display: flex;
+    align-items: center;
+}
+
+.arrow svg {
+    width: 24px;
+    height: 24px;
+    fill: #0d6efd;
+    transition: fill 0.3s ease;
+}
+
+.back-link:hover {
+    color: #084cdf;
+}
+
+.back-link:hover .arrow-wrapper {
+    background-color: #94CAFF;
+}
+
+.back-link:hover .arrow svg {
+    fill: white;
+}
+
+.back-link span {
+    vertical-align: middle;
+    line-height: 1;
+}
+
+
+
+
+.login-container h2 {
+    color: #0d6efd;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.register-btn {
+    width: 100%;
+    background: #0d6efd;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.register-btn:hover {
+    background: #084cdf;
+}
+
+
+
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

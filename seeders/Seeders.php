@@ -12,7 +12,8 @@ abstract class Seeders
 
     static public array $seeds = [
         UsersSeeder::class,
-        FolderSeeder::class
+        FolderSeeder::class,
+        NoteSeeder::class
     ];
     public function __construct()
     {

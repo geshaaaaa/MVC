@@ -14,7 +14,10 @@ abstract class BaseApiController extends Controller
 {
     protected ?Model $model = null;
 
+
     abstract protected function getModel() : string;
+
+
     public function before(string $action, array $params  = []) : bool
     {
 
@@ -41,6 +44,7 @@ abstract class BaseApiController extends Controller
         return true;
 
     }
+
 
     protected function checkResourceOwner(string $action, array $params): void
     {

@@ -6,23 +6,33 @@ use App\Models\Folder;
 use ReallySimpleJWT\Token;
 
 
-function requestBody() : array
+function requestBody(): array
 {
-    $requestBody = file_get_contents("php://input");
+    $requestBody = file_get_contents('php://input');
     $body = json_decode($requestBody, true);
 
-    $fields = !json_last_error() ? $body : [];
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($body)) {
+        $body = $_POST;
+    }
 
-    return array_map(fn($value) => is_bool($value)? (int)$value : $value, $fields );
+    return array_map(fn ($value) => is_bool($value) ? (int) $value : $value, $body);
 }
+
+
+
+
+
 
 function jsonResponse(Status $status, array $data = []): string
 {
-    header_remove();
-    http_response_code($status->value);
-    header("Content-Type: application/json");
-    header("Status: $status->value");
-
+    if (!headers_sent()) {
+        header_remove();
+        http_response_code($status->value);
+        header("Content-Type: application/json");
+        header("Status: $status->value");
+    }else {
+        error_log("⚠️ Headers already sent in " . __FILE__);
+    }
     return json_encode([
         ...$status->withDescription(),
         'data' => $data

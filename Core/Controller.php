@@ -20,4 +20,5 @@ class Controller
     {
         return compact('status', 'body', 'errors');
     }
+
 }

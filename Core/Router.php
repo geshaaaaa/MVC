@@ -22,6 +22,7 @@ class Router
         'd' => 'int',
         '.' => 'string'
     ];
+    protected array $middlewares = [];
 
     /**
      * @return Router|null
@@ -45,6 +46,8 @@ class Router
         $router = static::getInstance();
 
         $router->routes[$uri] = [];
+
+        $router->middlewares[$uri] = [];
 
         $router->currentRoute = $uri;
 
@@ -106,7 +109,7 @@ class Router
 
     }
 
-    public function actions($action): void
+    public function actions($action): static
     {
 
         if (empty($this->routes[$this->currentRoute]['controller'])) {
@@ -118,6 +121,11 @@ class Router
             throw new Exception("Method $action doesnt exist");
         }
         $this->routes[$this->currentRoute]["action"] = $action;
+        return $this;
+    }
+    public function middleware(array $middlewares): void
+    {
+        $this->middlewares[$this->currentRoute] = $middlewares;
 
     }
 
@@ -129,54 +137,74 @@ class Router
         return json_encode($data);
 
     }
-    protected function checkHtttpMethod() : void
+
+    protected function checkHtttpMethod(): void
     {
-        $requestMethod = ($_SERVER['REQUEST_METHOD']);
+        $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
 
-        if ($requestMethod !== $this->params['method'])
-            {
-                throw new Exception("Requested method {$requestMethod} does not allow");
 
-            }
+        if ($requestMethod !== $this->params['method']) {
+            throw new Exception("Method [$requestMethod] not allowed!", Status::METHOD_NOT_ALLOWED->value);
+
+        }
         unset($this->params['method']);
     }
 
-    static public function dispatch($uri)
-    {
-        $router = static::getInstance();
-        $uri = $router->removeQueryVariables($uri);
-        $uri = trim($uri, "/");
 
-        if ($router->match($uri)) {
-            $router->checkHtttpMethod();
+        static public function dispatch($uri)
+        {
 
-            $controller = new $router->params['controller'];
-            $actions = $router->params['action'];
+            if (preg_match('/\.(css|js|png|jpg|jpeg|gif|svg|woff2?|ttf|eot)$/i', $uri)) {
+                return false;
+            }
 
-           unset($router->params['controller']);
-           unset($router->params['action']);
+            $router = static::getInstance();
+            $uri = $router->removeQueryVariables($uri);
+            $uri = trim($uri, "/");
 
-            if ($controller->before($actions, $router->params)) {
-                $response = call_user_func_array([$controller, $actions], $router->params);
 
-                $controller->after($actions, $response);
+            if ($router->match($uri)) {
+                $router->checkHtttpMethod();
 
+                foreach ($router->middlewares[$router->currentRoute] as $middleware) {
+                    if (class_exists($middleware)) {
+                        $instance = new $middleware();
+                        if (method_exists($instance, 'handle')) {
+                            $instance->handle();
+                        }
+                    }
+                }
+
+                $controller = new $router->params['controller'];
+                $actions = $router->params['action'];
+
+                unset($router->params['controller']);
+                unset($router->params['action']);
+
+                if ($controller->before($actions, $router->params)) {
+                    $response = call_user_func_array([$controller, $actions], $router->params);
+
+                    $controller->after($actions, $response);
+
+                    if ($actions != 'index') {
+                        return jsonResponse(
+                            $response['status'],
+                            [
+                                'data' => $response['body'],
+                                'errors' => $response['errors']
+                            ]
+                        );
+                    }
+                }
+            }
+            if ($actions != 'index') {
                 return jsonResponse(
-                    $response['status'],
+                    Status::INTERNAL_SERVER_ERROR,
                     [
-                        'data' => $response['body'],
-                        'errors' => $response['errors']
+                        'data' => [],
+                        'errors' => 'Internal Server Error'
                     ]
                 );
             }
         }
-
-        return jsonResponse(
-            Status::INTERNAL_SERVER_ERROR,
-            [
-                'data' => [],
-                'errors' => 'Internal Server Error'
-            ]
-        );
-    }
 }
