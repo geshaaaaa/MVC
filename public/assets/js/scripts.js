@@ -37,9 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-git filter-branch --force --index-filter \
-"git rm --cached --ignore-unmatch public/assets/pages/images/
---prune-empty --tag-name-filter cat -- --all
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".like-wished").forEach(button => {
