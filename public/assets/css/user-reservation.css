@@ -1,0 +1,328 @@
+.montserrat-semibold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 600;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-bold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 700;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-medium {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 500;
+
+    font-style: normal;
+
+}
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+
+}
+
+.container-header {
+
+    display: flex;
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    margin: auto;
+
+}
+
+.header {
+    padding: 10px 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    margin-bottom: 50px;
+
+    background: #EFF0F2;
+}
+
+.logo {
+    margin-left: 70px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+
+}
+.nav .header-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.nav a {
+    margin: 0 50px;
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+.user-menu {
+    position: relative; /* Для корректного позиционирования dropdown-content */
+    display: inline-block; /* Или flex, если нужно */
+}
+
+.user-icon {
+    /* Стили для кнопки (иконки пользователя) */
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 40px; /* Примерный размер, можно изменить */
+    height: 40px;
+    border-radius: 50%; /* Делаем иконку круглой */
+}
+
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-icon-logged {
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 40px; /* Примерный размер, можно изменить */
+    height: 40px;
+    border-radius: 50%;
+
+}
+.user-icon-logged
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
+.dropdown-content {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0; /* Выравниваем по правому краю иконки */
+    border-radius: 8px; /* Закругляем углы */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s; /* Плавное изменение цвета фона */
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+
+.modal {
+    display: none; /* изначально скрыто */
+    position: fixed;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center; align-items: center;
+}
+
+.modal-content {
+    background: white; padding: 20px; border-radius: 5px;
+    text-align: center;
+}
+
+.property-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    text-align: left;
+    display: flex;
+}
+
+.property-slider {
+    flex-shrink: 0; /* Щоб слайдер не стискався */
+    width: 100px; /* Задайте потрібну ширину для слайдера */
+    margin-right: 30px; /* Додайте відступ між слайдером та інформацією */
+}
+
+.property-slider img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    height: 100px; /* Задайте потрібну висоту для зображень */
+    object-fit: cover;
+}
+.property-info {
+    flex-grow: 1;
+}
+
+
+.reservations-container {
+    margin: 20px;
+}
+
+.reservations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.reservations-tabs {
+    display: flex;
+}
+
+.tab-button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: #ddd;
+}
+
+.reservations-list {
+
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.reservation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.reservation-details {
+    flex-grow: 1;
+}
+
+.cancel-reservation {
+    text-decoration: none ;
+    margin-top: 40px;
+    background-color: #9A9A9A;
+    height: 38px;
+    width: 190px;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bolder;
+    text-align: center;
+}
+
+
+
+.footer {
+
+    background: #9A9A9A;
+
+    color: black;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-weight: 500;
+
+}
+
+.container-footer {
+    display: flex;
+    margin: 80px 150px 150px 120px;
+}
+.footer-center {
+    padding-left: 100px;
+    padding-right: 150px;
+}
+
+
+
+.footer-left {
+    width: 300px;
+    margin-right: 40px;
+
+}
+
+.footer a {
+    text-decoration: none;
+    color: white;
+}
+.footer-center ul
+{
+    list-style: none;
+}
+
+.footer-right p {
+    color: white;
+
+}
+
+.social-media {
+    margin-left: 50px;
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+
+}

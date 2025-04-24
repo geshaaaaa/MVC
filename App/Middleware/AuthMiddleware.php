@@ -7,7 +7,7 @@ class AuthMiddleware extends AbstractMiddleware
 
     #[\Override] public function handle(): void
     {
-        if (!$this->auth->isAuth())
+        if (!isset($_COOKIE['token']))
         {
             $this->redirect::to("/auth");
             exit;

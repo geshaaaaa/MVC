@@ -1,0 +1,473 @@
+.montserrat-semibold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 600;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-bold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 700;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-medium {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 500;
+
+    font-style: normal;
+
+}
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+
+}
+
+.container-header {
+
+    display: flex;
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    margin: auto;
+
+}
+
+.header {
+    padding: 10px 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    margin-bottom: 50px;
+
+    background: #EFF0F2;
+}
+
+.logo {
+    margin-left: 70px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+
+}
+.nav .header-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.nav a {
+    margin: 0 50px;
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+.user-menu {
+    position: relative; /* Для корректного позиционирования dropdown-content */
+    display: inline-block; /* Или flex, если нужно */
+}
+
+.user-icon {
+    /* Стили для кнопки (иконки пользователя) */
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 40px; /* Примерный размер, можно изменить */
+    height: 40px;
+    border-radius: 50%; /* Делаем иконку круглой */
+}
+
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-icon-logged {
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 40px; /* Примерный размер, можно изменить */
+    height: 40px;
+    border-radius: 50%;
+
+}
+.user-icon-logged
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
+.dropdown-content {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0; /* Выравниваем по правому краю иконки */
+    border-radius: 8px; /* Закругляем углы */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s; /* Плавное изменение цвета фона */
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+
+.container {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+
+.filters {
+    width: 28%;
+    padding-left: 20px;
+}
+
+.filters-container {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+.filter-tag {
+    background: #E0E2E6;
+    border-radius: 17px;
+    padding: 6px 12px;
+    margin-right: 5px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.remove-filter {
+    margin-left: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+}
+
+
+.filter-button {
+    cursor: pointer;
+    margin-left: 900px;
+    width: 120px;
+    height: 40px;
+    background: none;
+    border: none;
+}
+
+.filter-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.filter-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.close-filter {
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group h4 {
+    margin-bottom: 5px;
+}
+
+.content {
+    display: flex;
+    margin-top: 50px;
+    margin-left: 80px;
+    margin-right: 80px;
+    justify-content: space-between;
+}
+
+.property-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    gap: 20px; /* Отступы между карточками */
+    width: 100%;
+}
+
+
+.property-card {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+
+}
+
+.property-card:hover {
+    transform: scale(1.02); /* Легкий эффект при наведении */
+}
+
+
+
+.property-image {
+    width: 574px;
+    height: 384px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+.property-info {
+    height: 174px;
+    width: 574px;
+}
+.property-info p {
+    padding-left: 26px;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
+
+.like-wished {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    z-index: 10;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heart {
+    background: url("../pages/images/img.png") no-repeat;
+    background-position: left;
+    background-size: 2900%;
+    width: 70px;
+    height: 70px;
+}
+
+.heart.heart-active {
+    animation: animate .8s steps(28) 1;
+    background-position: right;
+}
+
+@keyframes animate {
+    0% { background-position: left; }
+    100% { background-position: right; }
+}
+
+.property-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.property-address {
+    color: #777;
+    font-size: 14px;
+}
+
+.property-price {
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+}
+
+.property-details span {
+    margin-right: 10px;
+}
+
+.map-container {
+    width: 35%;
+    padding-left: 20px;
+}
+
+.map-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.property-card {
+    max-width: 600px; /* Установите максимальную ширину карточки */
+    width: 100%;
+}
+
+.property-slider {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.slick-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slick-track {
+    display: flex;
+    align-items: center;
+}
+.slick-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex !important;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.slick-dots li {
+    margin: 0 5px;
+}
+
+.slick-dots li button {
+    font-size: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+}
+
+.slick-dots .slick-active button {
+    background: white;
+}
+
+.footer {
+
+    background: #9A9A9A;
+
+    color: black;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-weight: 500; /* Montserrat Medium */
+
+}
+
+.container-footer {
+    display: flex;
+    margin: 80px 150px 150px 120px;
+}
+.footer-center {
+    padding-left: 100px;
+    padding-right: 150px;
+}
+
+.footer-left {
+    width: 300px;
+    margin-right: 40px;
+
+}
+
+.footer a {
+    text-decoration: none;
+    color: white;
+}
+.footer-center ul
+{
+    list-style: none;
+}
+
+.footer-right p {
+    color: white;
+
+}
+
+.social-media {
+    margin-left: 50px;
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+
+}

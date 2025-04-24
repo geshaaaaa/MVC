@@ -55,10 +55,22 @@ trait Queryable
 
     static public function delete(int $id) : bool
     {
-
-
         $query = DB::connect()->prepare("DELETE FROM " . static::$tableName . " WHERE id = :id");
         $query->bindParam("id", $id, PDO::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    static public function deleteByConditions(array $conditions): bool
+    {
+        $queryStr = "DELETE FROM " . static::$tableName . " WHERE ";
+        $queryStr .= implode(" AND ", array_map(fn($key) => "$key = :$key", array_keys($conditions)));
+
+        $query = DB::connect()->prepare($queryStr);
+
+        foreach ($conditions as $key => $value) {
+            $query->bindValue(":$key", $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+        }
 
         return $query->execute();
     }
@@ -90,9 +102,29 @@ trait Queryable
             static::$query .= " WHERE ";
             $obj->commands[] = "where";
         }
-        static::$query .= "$column $operator->value $value";
+        static::$query .= "$column $operator->value $value ";
 
         return $obj;
+    }
+
+    public static function count(array $conditions = []): int
+    {
+
+        $sql = "SELECT COUNT(*) FROM " . static::$tableName;
+        $params = [];
+
+        if (!empty($conditions)) {
+            $whereClauses = [];
+            foreach ($conditions as $column => $value) {
+                $whereClauses[] = "{$column} = ?";
+                $params[] = $value;
+            }
+            $sql .= " WHERE " . implode(" AND ", $whereClauses);
+        }
+
+        $stmt = DB::connect()->prepare($sql);
+        $stmt->execute($params);
+        return (int) $stmt->fetchColumn();
     }
 
     public function whereExists(callable $callback, array $params = []): static
@@ -108,10 +140,45 @@ trait Queryable
         }
 
         static::$query .= "EXISTS (";
-        call_user_func_array($callback, array_merge([$this], $params)); // Выполняем callback, передавая $this и параметры
-        static::$query .= ")";
+        $callback($this);
 
         return $obj;
+    }
+
+    public function distinct(): static
+    {
+        $this->required(['select'], 'DISTINCT can not be called without SELECT');
+
+        if (!in_array('distinct', $this->commands)) {
+            static::$query = preg_replace('/SELECT /', 'SELECT DISTINCT ', static::$query, 1);
+            $this->commands[] = 'distinct';
+        }
+
+        return $this;
+    }
+
+    public function first(): static|null
+    {
+        $results = $this->get();
+        return !empty($results) ? $results[0] : null;
+    }
+
+    public function fetchAssoc(): array
+    {
+        $results = DB::connect()->query(static::$query)->fetchAll(PDO::FETCH_ASSOC);
+        $objects = [];
+
+        foreach ($results as $result) {
+            $obj = new static();
+            foreach ($result as $column => $value) {
+                if (property_exists($obj, $column)) {
+                    $obj->$column = $value;
+                }
+            }
+            $objects[] = $obj;
+        }
+
+        return $objects;
     }
     public function whereNotExists(callable $callback, array $params = []): static
     {
@@ -126,7 +193,7 @@ trait Queryable
         }
 
         static::$query .= "NOT EXISTS (";
-        call_user_func_array($callback, array_merge([$this], $params)); // Выполняем callback, передавая $this и параметры
+        call_user_func_array($callback, array_merge([$this], $params)); // Р’С‹РїРѕР»РЅСЏРµРј callback, РїРµСЂРµРґР°РІР°СЏ $this Рё РїР°СЂР°РјРµС‚СЂС‹
         static::$query .= ")";
 
         return $obj;
@@ -248,7 +315,7 @@ trait Queryable
     }
 
 
-     public function update(array $fields) : static
+    public function update(array $fields) : static
     {
         $query = DB::connect()->prepare("UPDATE " . static::$tableName . " SET " . $this->updatePlaceholders($fields) . ' WHERE id = :id');
 
@@ -264,6 +331,14 @@ trait Queryable
         return static::delete($this->id);
     }
 
+
+    static public function deleteWhere(string $column, mixed $value): bool
+    {
+        $query = DB::connect()->prepare("DELETE FROM " . static::$tableName . " WHERE $column = :value");
+        $query->bindValue(':value', $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+
+        return $query->execute();
+    }
 
     protected function updatePlaceholders(array $fields): string
     {
@@ -321,11 +396,35 @@ trait Queryable
             }
         }
     }
+    public function from(string $table): static
+    {
+        static::$query .= " FROM " . $table;
+        return $this;
+    }
 
     public function exists(): bool
     {
         $this->required(['select'], 'Method exists() can not be called without');
         return !empty($this->get());
+    }
+    public function hasAnyResults(): bool
+    {
+        return !empty($this->fetchAssoc());
+    }
+    public function isEmpty(): bool
+    {
+        return empty($this->get());
+    }
+    static public function selectDistinct(array $columns = ["*"]): static
+    {
+        static::resetQuery();
+
+        static::$query .= "SELECT DISTINCT " . implode(",", $columns). " FROM " . static::$tableName;
+
+        $obj = new static;
+        $obj->commands[] = 'select';
+
+        return $obj;
     }
 
     public function join(string $table, array $conditions, string $type = 'LEFT'): static
@@ -343,5 +442,49 @@ trait Queryable
 
         return $obj;
     }
+
+    public static function increment(string $column, int $amount = 1, array $conditions = []): int
+    {
+        $query = "UPDATE " . static::$tableName . " SET $column = $column + :amount";
+        $params = ['amount' => $amount];
+
+        if (!empty($conditions)) {
+            $whereClauses = [];
+            foreach ($conditions as $key => $value) {
+                $whereClauses[] = "$key = :$key";
+                $params[$key] = $value;
+            }
+            $query .= " WHERE " . implode(" AND ", $whereClauses);
+        }
+
+        $stmt = DB::connect()->prepare($query);
+        $stmt->execute($params);
+
+        return $stmt->rowCount(); // Возвращает количество обновленных строк
+    }
+
+    /**
+     * Уменьшает значение указанного поля на 1.
+     */
+    public static function decrement(string $column, int $amount = 1, array $conditions = []): int
+    {
+        $query = "UPDATE " . static::$tableName . " SET $column = $column - :amount";
+        $params = ['amount' => $amount];
+
+        if (!empty($conditions)) {
+            $whereClauses = [];
+            foreach ($conditions as $key => $value) {
+                $whereClauses[] = "$key = :$key";
+                $params[$key] = $value;
+            }
+            $query .= " WHERE " . implode(" AND ", $whereClauses);
+        }
+
+        $stmt = DB::connect()->prepare($query);
+        $stmt->execute($params);
+
+        return $stmt->rowCount(); // Возвращает количество обновленных строк
+    }
+
 
 }

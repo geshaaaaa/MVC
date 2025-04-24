@@ -8,5 +8,6 @@ class Wishlists extends Model
 {
     public static ?string $tableName = 'wishlists';
     public int $id, $user_id, $housing_id;
+    public string $created_at;
 
 }

@@ -12,7 +12,7 @@ return new class implements \App\Commands\Contract\MigrationSample
            id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
            email VARCHAR(255) NOT NULL UNIQUE,
            password TEXT NOT NULL,
-           userType VARCHAR(255) NOT NULL,
+           role VARCHAR(255) NOT NULL,
            token TEXT,
            token_expired_at BIGINT,
            created_at DATETIME DEFAULT NOW()

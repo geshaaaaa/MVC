@@ -7,14 +7,14 @@ use Core\Model;
 class User extends Model
 {
     protected static ?string $tableName = 'users';
-    public string $email, $password, $created_at, $userType;
+    public string $email, $password, $created_at, $role;
+
 
     public ?string $token;
-    public ?int $token_expired_at;
+    public ?int $token_expired_at, $owner_id;
     public function getAllInfo(): array
     {
         return [
-            'userType' => $this->userType,
             'email' => $this->email,
             'password' => $this->password,
         ];

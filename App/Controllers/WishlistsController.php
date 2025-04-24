@@ -42,17 +42,18 @@ class WishlistsController extends Controller
 
         if ($id) {
             Wishlists::delete($id);
+
             return $this->response(Status::OK, ['message' => 'Видалено з списка бажань']);
         }
 
-         else {
+        else {
 
             Wishlists::create([
                 'user_id' => $userId,
                 'housing_id' => $housingId
             ]);
             return $this->response(Status::OK, ['message' => 'Додано у список бажань']);
-         }
+        }
 
     }
 

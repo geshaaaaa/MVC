@@ -33,6 +33,7 @@ class AuthController extends Controller
     {
         $fields = requestBody();
 
+
         if (AuthValidator::validate($fields))
         {
             $user = User::findBy('email', $fields['email']);
@@ -115,5 +116,17 @@ class AuthController extends Controller
         exit();
     }
 
+    public function authId(): ?int
+    {
+        if (!$this->isAuth()) {
+            return null;
+        }
+
+        $token = $_COOKIE['token'] ?? null;
+        if (!$token) return null;
+
+        $payload = Token::getPayload($token);
+        return $payload['user_id'] ?? null;
+    }
 
 }

@@ -4,7 +4,7 @@ namespace App\Validators\Auth;
 
 class AuthValidator extends Base
 {
-    const string DEFAULT_MESSAGE = 'Invalid email or password';
+    const string DEFAULT_MESSAGE = 'Неправильний логін або пароль';
 
     protected static array $errors = [
         'email' => self::DEFAULT_MESSAGE,

@@ -17,8 +17,7 @@ return new class implements \App\Commands\Contract\MigrationSample
     price DECIMAL(10,2) NOT NULL,
     location VARCHAR(255) NOT NULL,
     guests_capacity_max INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )';
     }
 

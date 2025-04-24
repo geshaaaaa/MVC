@@ -14,8 +14,8 @@ class HousingValidator extends BaseValidator
     ];
 
     protected static array $errors = [
-        'location' => 'Местоположение должно содержать только буквы, пробелы и дефисы.',
-        'guests_capacity' => 'Количество гостей должно быть числом.',
+        'location' => 'Місцезнаходження має містити лише літери, пробіли та дефіси.',
+        'guests_capacity' => 'Кількість гостей має бути числом.',
     ];
 
     public static function validate(array $fields = [])

@@ -62,7 +62,7 @@ body {
 
 
 
-.container {
+.container-header {
 
     display: flex;
 
@@ -72,6 +72,7 @@ body {
 
     margin: auto;
 
+
 }
 
 
@@ -79,13 +80,14 @@ body {
 .header {
 
     padding: 10px 0;
-/*    background-image: url("/public/assets/pages/images);*/
+
+    background: white;
 
     background-size: cover;
 
     background-position: center;
 
-
+    margin-bottom: 30px;
 }
 
 
@@ -144,11 +146,13 @@ body {
 
 
 .user-menu {
+
     position: relative; /* Для корректного позиционирования dropdown-content */
     display: inline-block; /* Или flex, если нужно */
 }
 
 .user-icon {
+    margin-left: 300px;
     /* Стили для кнопки (иконки пользователя) */
     cursor: pointer;
     border: none;
@@ -186,7 +190,7 @@ body {
     display: none; /* Скрыто по умолчанию */
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 300px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     right: 0; /* Выравниваем по правому краю иконки */
@@ -288,6 +292,10 @@ body {
     margin-top: 20px;
     text-align: left;
 }
+.nav .header-text {
+    font-size: 16px;
+    font-weight: 600;
+}
 
 
 .main section {
@@ -297,96 +305,205 @@ body {
     font-family: "Montserrat", sans-serif;
 
 }
-
-.property-title {
-    margin: 80px 0 64px 80px;
-    border-bottom:  2px solid #484848;
-    width: fit-content;
-    font-weight: 700;
+.property-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
     font-size: 36px;
+    line-height: 48px;
+    width: 339px;
+    height: 103px;
+    color: #484848;
+    margin-bottom: 80px;
 }
-
-.property-grid,
-
-.guides-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
-    gap: 15px;
-
+.latest-listing {
+    margin-bottom: 80px;
     margin-left: 80px;
+}
 
-    margin-right: 80px;
+.top-rated {
+    margin-bottom: 40px;
+    margin-left: 80px;
+}
+
+.rental-guides {
+    margin-bottom: 80px;
+    margin-left: 80px;
+}
+.Discover-about {
+    margin-bottom: 80px;
+    margin-left: 80px;
+}
+
+    .property-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 
 }
 
-
-
-.property-card,
-
-.guide-card {
-
-    background: white;
-
-    width: 279px;
-
-    height: 340px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 5px;
-
-    text-align: center;
-
-    font-family: "Montserrat", sans-serif;
-
-    font-weight: 500; /* Montserrat Medium */
-
+.property-card {
     position: relative;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    width: 270px;
+}
 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
+.rental-image {
+    cursor: pointer;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.rental-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.rental-type-title {
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.property-card.rental-card {
+    text-decoration: none;
+}
+
+.rental-type-title {
+    text-decoration: none !important;
+    border-bottom: none;
+}
+
+.property-card:hover {
+    transform: scale(1.02); /* Легкий эффект при наведении */
 }
 
 .property-image {
-    width: 100%;
-    height: 250px;
     object-fit: cover;
-    position: relative;
+    border-radius: 8px;
 }
 
-.property-name{
-    color: black; /* Белый цвет текста */
-    font-weight: 700;
-    text-align: center;
+.property-slider {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.slick-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.property-info {
+    height: 174px;
+    width: 574px;
+}
+.property-info p {
+    padding-left: 26px;
+}
+
+.rating {
+    display: inline flex;
+    flex-direction: row-reverse;
+}
+
+.rating_item {
+    font-size: 25px;
+    color: grey;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.rating_item:hover,
+.rating_item:hover ~ .rating_item{
+    color: black;
+}
+
+.rating[data-total-value="1"] .rating_item:nth-child(n+5),
+.rating[data-total-value="2"] .rating_item:nth-child(n+4),
+.rating[data-total-value="3"] .rating_item:nth-child(n+3),
+.rating[data-total-value="4"] .rating_item:nth-child(n+2),
+.rating[data-total-value="5"] .rating_item:nth-child(n+1){
+    color: orange;
+}
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
+
+.like-wished {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    z-index: 10;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heart {
+    background: url("../pages/images/img.png") no-repeat;
+    background-position: left;
+    background-size: 2900%;
+    width: 70px;
+    height: 70px;
+}
+
+.heart.heart-active {
+    animation: animate .8s steps(28) 1;
+    background-position: right;
+}
+
+@keyframes animate {
+    0% { background-position: left; }
+    100% { background-position: right; }
+}
+.property-link-title {
+    text-decoration: none; /* Убирает подчеркивание */
+    color: inherit; /* Наследует цвет текста от родительского элемента */
+    display: block; /* Делает ссылку блочным элементом, чтобы охватить всю область */
+}
+
+/* Дополнительные стили для наведения (опционально) */
+.property-link-title:hover {
+    /* Например, можно добавить другое выделение */
+    text-decoration: underline;
+    color: #007bff; /* Пример цвета при наведении */
+}
+
+.property-title {
+    font-weight: 600;
+    font-size: 16px;
 }
 .property-address {
-    color: #9A9A9A;
-    text-align: center;
+    color: #777;
+    font-size: 14px;
 }
 
+.property-price {
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+}
 
-
-
-
-.like-wished
-{
-    position: absolute;
-
-    border: none;
-
-    background: none;
-
-    cursor: pointer;
-
-    left: 234px;
-
-    top: 10px;
-
-    z-index: 1;
-
+.property-details span {
+    margin-right: 10px;
 }
 
 .rating {
@@ -407,19 +524,20 @@ body {
 }
 
 .cta-banner {
-    margin: 80px;
+    margin: 50px;
 }
 
 .hosting-banner {
     padding-left: 50px;
     width: 90%;
     height: 395px;
-    background-image: url("../../../views/pages/images/green-brown-mountains-cloudy-sky-sunset.jpg");
+
     background-size: cover;
     background-position: center center;
 }
 .host-banner-title
 {
+    margin-bottom: 20px;
 
     padding-top: 75px;
 
@@ -474,12 +592,12 @@ body {
 
 }
 .discover-text-button {
-    margin: 60px 100px 100px 80px;
+
 }
 
 .Learn-more-text {
-    margin-bottom: 30px;
-
+    margin-top: 150px;
+    margin-bottom: 50px;
 }
 
 

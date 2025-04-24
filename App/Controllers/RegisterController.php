@@ -35,7 +35,6 @@ class RegisterController extends Controller
             $user = User::createAndReturn([
                 ...$fields,
                 'password' => password_hash($fields['password'], PASSWORD_ARGON2ID),
-                'userType' => "Agency"
             ]);
             Redirect::to('/auth');
             exit;

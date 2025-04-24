@@ -1,0 +1,784 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600&display=swap');
+
+.montserrat-semibold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 600;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-bold {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 700;
+
+    font-style: normal;
+
+}
+
+
+
+.montserrat-medium {
+
+    font-family: "Montserrat", sans-serif;
+
+    font-optical-sizing: auto;
+
+    font-weight: 500;
+
+    font-style: normal;
+
+}
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+
+}
+
+.container-header {
+
+    display: flex;
+
+    width: 90%;
+
+    max-width: 1100px;
+
+    margin: auto;
+
+}
+
+.header {
+    padding: 10px 0;
+
+    background-size: cover;
+
+    background-position: center;
+
+    margin-bottom: 50px;
+
+    background: #EFF0F2;
+}
+
+.logo {
+    margin-left: 70px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+
+}
+.nav .header-text {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+.nav a {
+    margin: 0 50px;
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+.user-menu {
+    position: relative; /* Для корректного позиционирования dropdown-content */
+    display: inline-block; /* Или flex, если нужно */
+}
+
+.user-icon {
+    /* Стили для кнопки (иконки пользователя) */
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 40px; /* Примерный размер, можно изменить */
+    height: 40px;
+    border-radius: 50%; /* Делаем иконку круглой */
+}
+
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-icon-logged {
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 40px; /* Примерный размер, можно изменить */
+    height: 40px;
+    border-radius: 50%;
+
+}
+.user-icon-logged
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
+.dropdown-content {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0; /* Выравниваем по правому краю иконки */
+    border-radius: 8px; /* Закругляем углы */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s; /* Плавное изменение цвета фона */
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+
+.details-container {
+    padding: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.housing-images {
+    display: flex;
+    margin-bottom: 70px;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+
+.main-image {
+    flex: 2;
+
+}
+
+.owner-info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.owner-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.owner-details {
+    font-size: 0.9em;
+}
+
+.owner-email {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.property-price-main {
+    font-weight: bold;
+    color: green; /* Или ваш цвет для цены */
+}
+
+.main-image img {
+    margin-left: 20px;
+    width: 90%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.side-images {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.side-image {
+    width: calc(50% - 5px);
+    height: auto;
+}
+
+.side-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.more-photos {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 2em;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Удалите width и height */
+}
+
+.more-photos:hover {
+    background-color: #e0e0e0;
+}
+
+
+
+.title-like {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+ 
+}
+
+
+
+.like-wished {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heart {
+    background: url("../pages/images/img.png") no-repeat;
+    background-position: left;
+    background-size: 2900%;
+    width: 90px;
+    height: 90px;
+}
+
+.heart.heart-active {
+    animation: animate .3s steps(28) 1;
+    background-position: right;
+}
+
+@keyframes animate {
+    0% { background-position: left; }
+    100% { background-position: right; }
+}
+
+.review-form {
+    margin-left: 20px;
+}
+
+.rating {
+    display: inline flex;
+    flex-direction: row-reverse;
+}
+
+.rating_item {
+    font-size: 25px;
+    color: grey;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.rating_item:hover,
+.rating_item:hover ~ .rating_item{
+    color: black;
+}
+
+.rating[data-total-value="1"] .rating_item:nth-child(n+5),
+.rating[data-total-value="2"] .rating_item:nth-child(n+4),
+.rating[data-total-value="3"] .rating_item:nth-child(n+3),
+.rating[data-total-value="4"] .rating_item:nth-child(n+2),
+.rating[data-total-value="5"] .rating_item:nth-child(n+1){
+    color: orange;
+}
+
+
+.avg-rating {
+    margin-left: 10px; /* Отступ между рейтингом и средней оценкой */
+    font-size: 0.9em; /* Можно настроить размер шрифта */
+    color: #777; /* Цвет текста средней оценки */
+}
+
+#galleryModal {
+    display: none;
+    position: fixed;
+    z-index: 2; /* Выше основного модального окна */
+    padding-top: 50px; /* Adjust as needed */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.grid-image.highlight {
+    border: 3px solid #ff4500;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.modal-content-gallery {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 900px; /* Adjust as needed */
+    border-radius: 5px;
+    position: relative;
+    height: 80%; /* Adjust as needed for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+}
+
+.close-gallery {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-gallery:hover,
+.close-gallery:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.all-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust minmax as needed */
+    gap: 10px;
+    padding: 10px;
+}
+
+.grid-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+.location-details {
+    color: #9A9A9A;
+    font-size: medium;
+    font-weight: lighter;
+    margin-bottom: 40px;
+}
+
+.amenities-details {
+    margin-top: 20px;
+}
+
+.amenities-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.amenity-icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.amenity-name {
+    font-size: 1em;
+}
+
+
+
+
+
+.reservation-info-box {
+    margin-right: 300px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    width: 380px; /* Фиксированная ширина блока */
+    flex-shrink: 0; /* Чтобы блок не сжимался */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+.housing-description {
+    line-height: 2;
+}
+
+.housing-details {
+    display: flex;
+    justify-content: space-between; /* Размещает элементы по краям */
+    align-items: flex-start; /* Выравнивает элементы по верхнему краю */
+    gap: 20px; /* Ра Блок занимает оставшееся пространство */
+}
+
+.description-without-resrvform {
+    margin-left: 150px;
+    margin-right: 100px;
+    flex-grow: 1;
+}
+
+.price-range {
+    margin-bottom: 15px;
+}
+
+.price-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.price-value {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+}
+
+.period-price {
+    font-size: 0.95em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.reserve-button {
+    background-color: #484848;
+
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.05em;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 100%; /* Занимает всю ширину блока */
+    margin-bottom: 15px;
+}
+
+.reserve-button:hover {
+    background-color: black;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-action-button {
+    background-color: #e0e0e0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9em;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 50%;
+}
+
+.modal-action-button:hover {
+    background-color: #d0d0d0;
+}
+
+/* Модальное окно резервации */
+#reservationModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content-reservation {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.reservation-details {
+    margin-top: 20px;
+}
+
+.reservation-details p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.date-picker {
+    margin-bottom: 15px;
+}
+
+.date-picker label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.date-picker input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#reserveButtonModal {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#reserveButtonModal:hover {
+    background-color: black;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-action-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 48%;
+}
+
+.modal-action-button.property-inquiry {
+    margin-right: 4%;
+}
+
+.modal-action-button:hover {
+    background-color: #e0e0e0;
+}
+
+
+.footer {
+
+    background: #9A9A9A;
+
+    color: black;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-weight: 500; /* Montserrat Medium */
+
+}
+
+.container-footer {
+    display: flex;
+    margin: 80px 150px 150px 120px;
+}
+.footer-center {
+    padding-left: 100px;
+    padding-right: 150px;
+}
+
+
+
+.footer-left {
+    width: 300px;
+    margin-right: 40px;
+
+}
+
+.footer a {
+    text-decoration: none;
+    color: white;
+}
+.footer-center ul
+{
+    list-style: none;
+}
+
+.footer-right p {
+    color: white;
+
+}
+
+.social-media {
+    margin-left: 50px;
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+
+}
